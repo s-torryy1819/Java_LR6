@@ -3,6 +3,8 @@ package lr6;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class Task14 extends Frame implements ActionListener {
 
@@ -36,6 +38,8 @@ public class Task14 extends Frame implements ActionListener {
         size14Button.addActionListener(this);
         size16Button.addActionListener(this);
 
+        updateButtonStyles();
+
         setLayout(new BorderLayout());
 
         Panel toolBarPanel = new Panel();
@@ -54,15 +58,11 @@ public class Task14 extends Frame implements ActionListener {
         setVisible(true);
 
         // Закриття вікна
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent windowEvent) {
                 System.exit(0);
             }
         });
-    }
-
-    public static void main(String[] args) {
-        new Task14();
     }
 
     @Override
@@ -70,25 +70,18 @@ public class Task14 extends Frame implements ActionListener {
         // Визначення дій при натисканні на кожну кнопку
         if (e.getSource() == blackButton) {
             textArea.setForeground(Color.BLACK);
-            updateButtonStyles();
         } else if (e.getSource() == redButton) {
             textArea.setForeground(Color.RED);
-            updateButtonStyles();
         } else if (e.getSource() == greenButton) {
             textArea.setForeground(Color.GREEN);
-            updateButtonStyles();
         } else if (e.getSource() == blueButton) {
             textArea.setForeground(Color.BLUE);
-            updateButtonStyles();
         } else if (e.getSource() == size12Button) {
             textArea.setFont(new Font("Arial", Font.PLAIN, 12));
-            updateButtonStyles();
         } else if (e.getSource() == size14Button) {
             textArea.setFont(new Font("Arial", Font.PLAIN, 14));
-            updateButtonStyles();
         } else if (e.getSource() == size16Button) {
             textArea.setFont(new Font("Arial", Font.PLAIN, 16));
-            updateButtonStyles();
         }
     }
 

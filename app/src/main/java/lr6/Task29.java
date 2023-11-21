@@ -1,46 +1,53 @@
 package lr6;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
-public class Task29 extends JFrame implements ActionListener {
-    private JTextField widthField, heightField;
-    private JButton resizeButton;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+
+public class Task29 extends Frame implements ActionListener {
+    private TextField widthField, heightField;
+    private Button resizeButton;
     private ImagePanel imagePanel;
 
-    public Task29() {
-        setTitle("Picture size change");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    public Task29() throws IOException {
+        setTitle("Image size change tool");
+        setSize(600, 400);
+        setLayout(new BorderLayout());
 
         // Верхня панель з компонентами для введення розміру зображення
-        JPanel sizePanel = new JPanel();
-        sizePanel.add(new JLabel("Width:"));
-        widthField = new JTextField(5);
+        Panel sizePanel = new Panel();
+        sizePanel.add(new Label("Width:"));
+        widthField = new TextField(5);
         sizePanel.add(widthField);
-        sizePanel.add(new JLabel("Height:"));
-        heightField = new JTextField(5);
+
+        sizePanel.add(new Label("Height:"));
+        heightField = new TextField(5);
         sizePanel.add(heightField);
-        resizeButton = new JButton("Display picture");
+
+        resizeButton = new Button("Display image");
         resizeButton.addActionListener(this);
         sizePanel.add(resizeButton);
 
+        add(sizePanel, BorderLayout.NORTH);
+
         // Нижня панель з компонентом для виведення зображення
         imagePanel = new ImagePanel();
-
-        // Розташування компонентів у вікні
-        setLayout(new BorderLayout());
-        add(sizePanel, BorderLayout.NORTH);
         add(imagePanel, BorderLayout.CENTER);
 
-        pack();  // Автоматично розмістити компоненти у вікні
-        setLocationRelativeTo(null);  // Розміщення вікна по центру екрану
-        setVisible(true);
 
+        setVisible(true);
+        
         // Закриття вікна
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent windowEvent) {
                 System.exit(0);
             }
         });
@@ -53,8 +60,8 @@ public class Task29 extends JFrame implements ActionListener {
             int height = Integer.parseInt(heightField.getText());
             imagePanel.resizeImage(width, height);
         } else {
-            JOptionPane.showMessageDialog(this, "Incorrect data, please enter correct width and height",
-                    "Error", JOptionPane.ERROR_MESSAGE);
+            // Вивести повідомлення про помилку, якщо введені дані некоректні
+            System.out.println("Incorrect Data. Please enter width and height one more time.");
         }
     }
 
@@ -68,18 +75,18 @@ public class Task29 extends JFrame implements ActionListener {
         }
     }
 
-    private class ImagePanel extends JPanel {
+    private class ImagePanel extends Panel {
         private Image originalImage;
         private Image scaledImage;
 
-        public ImagePanel() {
+        public ImagePanel() throws IOException {
             loadImage();  // Завантаження довільного зображення
         }
 
-        private void loadImage() {
-            //  логіка завантаження зображення
-            // Наприклад, можна використати ImageIcon:
-            ImageIcon icon = new ImageIcon("tree-736885_1280");
+        private void loadImage() throws IOException {
+            URL url = new URL("https://img.freepik.com/premium-vector/smooth-color-wave-vectorcurved-lines-rainbow-abstract-multicolored-wave-flow_206325-1410.jpg");
+            Image image = ImageIO.read(url);
+            ImageIcon icon = new ImageIcon(image);
             originalImage = icon.getImage();
             scaledImage = originalImage;
         }
@@ -90,8 +97,8 @@ public class Task29 extends JFrame implements ActionListener {
         }
 
         @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
+        public void paint(Graphics g) {
+            super.paint(g);
             g.drawImage(scaledImage, 0, 0, this);
         }
     }

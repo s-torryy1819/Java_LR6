@@ -3,6 +3,8 @@ package lr6;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class Task6 extends Frame {
     private TextField textField;
@@ -48,6 +50,7 @@ public class Task6 extends Frame {
         canvas = new Canvas();
         canvas.setSize(380, 150);
         add(canvas);
+        setVisible(true);
 
         // Обробник події для кнопки "Вивести рядок"
         displayButton.addActionListener(new ActionListener() {
@@ -58,8 +61,8 @@ public class Task6 extends Frame {
         });
 
         // Закриття вікна
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent windowEvent) {
                 System.exit(0);
             }
         });
